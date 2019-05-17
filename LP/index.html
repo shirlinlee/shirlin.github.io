@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.manara.asia/tw/user_data/packages/defaultta/img/common/favicon.ico" />
+
+    <link href="assets/css/reset.css" rel="stylesheet">
+    <link href="assets/css/init.css" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.22/vue.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-scrollto"></script>
+
+</head>
+
+<body>
+    <div id="wrapper">
+        <div class="W100" id="top">
+            <img class="logo f_left" src="assets/img/logo-white.png" @click="outSideLink('https://www.manara.asia/tw/')">
+        </div>
+        <div id="banner" :style="{'background-image': 'url('+srcHandler(bannerImgName)+')'}" v-if="bannerShow">
+        </div>
+        <div id="content" :style="{'margin-top': contentMarginTop }">
+            <img :src="'assets/img/'+contentImgName1+'.jpg'" alt="">
+            <div class="video_wrapper" v-if="videoShow">
+                <img src="assets/img/video_frame.jpg" alt="">
+                <iframe width="100%" src="https://www.youtube.com/embed/a3ccgWYE5Ww" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+            <img :src="'assets/img/'+contentImgName2+'.jpg'" alt="">
+        </div>
+        <div id="footer">
+            <p class="W1200">
+                <img src="assets/img/btn-top.png" class="goTop" alt="" v-scroll-to="{ el: '#top',duration: 700}">
+                <span class="pc W100">免費客服專線：0809-091-520 ｜ Email：infotw@manara.asia ｜ 服務時間：9:00 - 18:00全年無休<br></span>
+                Copyright© MANARA ALL Right RESERVED
+            </p>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
+
+<script>
+    var vm = new Vue({
+        el: '#wrapper',
+        data: {
+            bannerShow: true,  //是否show 上方滿版banner
+            bannerImgName: 'banner', //上方滿版banner檔名，統一jpg，不用加副檔名
+            contentMarginTop: '-50px',
+            contentImgName1: 'content1', //下方內容圖片名，不用加副檔名
+            videoShow: true,   //是否show youtube iframe
+            videoId: 'a3ccgWYE5Ww',   //youtube id 
+            contentImgName2: 'content2', //youtube後方圖片名，不用加副檔名
+            isPc: true
+
+        },
+
+        mounted() {
+            var $this = this;
+            this.$nextTick(() => {
+                this.deviceDeatact();
+                window.addEventListener('resize', function () {
+                    $this.deviceDeatact();
+                })
+            })
+        },
+
+        methods: {
+            deviceDeatact(link) {
+                if (window.innerWidth < 900) {
+                    this.isPc = false;
+                } else {
+                    this.isPc = true;
+                }
+            },
+            srcHandler(name) {
+                if (!this.isPc) name = name + '_m';
+                return 'assets/img/' + name + '.jpg';
+            },
+            outSideLink(addr) {
+                window.open(addr);
+            }
+
+        }
+    })
+</script>
